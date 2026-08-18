@@ -170,17 +170,18 @@ function ScrubVideo() {
       <video
         ref={videoRef}
         className="fixed inset-0 z-0 h-full w-full object-cover"
-        style={{ objectPosition: 'center 15%' }}
+        style={{ objectPosition: 'center 22%' }}
         src="/hero-video.mp4"
         muted
         playsInline
         preload="auto"
       />
+      {/* dark scrim: top (keeps nav legible off the head), sides, and bottom */}
       <div
         className="pointer-events-none fixed inset-0 z-[1]"
         style={{
           background:
-            'linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0) 55%), linear-gradient(0deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 40%)',
+            'linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0) 20%), linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.18) 30%, rgba(0,0,0,0) 55%), linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%)',
         }}
       />
     </>
@@ -192,20 +193,20 @@ function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 z-10 flex w-full items-center justify-between px-5 py-4 sm:px-8 sm:py-5">
-        <div className="flex flex-row items-center gap-3">
-          <span
-            className="text-[19px] tracking-tight text-black sm:text-[24px]"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            M. Hasnain Shaukat
-          </span>
-          <span className="select-none text-[25px] text-black sm:text-[30px]" style={{ letterSpacing: '-0.02em' }}>
+      <nav className="fixed top-0 z-10 flex w-full items-start justify-between px-5 py-4 sm:px-8 sm:py-5">
+        <div className="flex flex-row items-start gap-3">
+          <div className="flex flex-col leading-tight">
+            <span className="text-[19px] tracking-tight text-white sm:text-[24px]" style={{ fontFamily: 'var(--font-heading)' }}>
+              M. Hasnain Shaukat
+            </span>
+            <span className="mt-0.5 text-[11px] tracking-wide text-white/55 sm:text-[12px]">3.73 CGPA</span>
+          </div>
+          <span className="-mt-0.5 select-none text-[22px] text-white sm:text-[26px]" style={{ letterSpacing: '-0.02em' }}>
             ✳︎
           </span>
         </div>
 
-        <div className="hidden flex-row text-[19px] text-black lg:flex">
+        <div className="hidden flex-row text-[19px] text-white lg:flex">
           {NAV_LINKS.map((link, i) => (
             <span key={link.label}>
               <a href={link.href} className="transition-opacity hover:opacity-60">
@@ -218,7 +219,7 @@ function Navbar() {
 
         <a
           href="#contact"
-          className="hidden text-[19px] text-black underline underline-offset-2 transition-opacity hover:opacity-60 lg:block"
+          className="hidden text-[19px] text-white underline underline-offset-2 transition-opacity hover:opacity-60 lg:block"
         >
           Get in touch
         </a>
@@ -229,27 +230,27 @@ function Navbar() {
           aria-label="Toggle menu"
         >
           <span
-            className="h-[2px] w-6 bg-black transition-all duration-300"
+            className="h-[2px] w-6 bg-white transition-all duration-300"
             style={menuOpen ? { transform: 'rotate(45deg) translateY(7px)' } : undefined}
           />
-          <span className="h-[2px] w-6 bg-black transition-all duration-300" style={menuOpen ? { opacity: 0 } : undefined} />
+          <span className="h-[2px] w-6 bg-white transition-all duration-300" style={menuOpen ? { opacity: 0 } : undefined} />
           <span
-            className="h-[2px] w-6 bg-black transition-all duration-300"
+            className="h-[2px] w-6 bg-white transition-all duration-300"
             style={menuOpen ? { transform: 'rotate(-45deg) translateY(-7px)' } : undefined}
           />
         </button>
       </nav>
 
       <div
-        className="fixed inset-0 z-[9] flex flex-col justify-center gap-8 bg-white/95 px-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
+        className="fixed inset-0 z-[9] flex flex-col justify-center gap-8 bg-black/95 px-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
         style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'auto' : 'none' }}
       >
         {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href} className="text-[32px] font-medium text-black" onClick={() => setMenuOpen(false)}>
+          <a key={link.label} href={link.href} className="text-[32px] font-medium text-white" onClick={() => setMenuOpen(false)}>
             {link.label}
           </a>
         ))}
-        <a href="#contact" className="text-[32px] font-medium text-black underline underline-offset-2" onClick={() => setMenuOpen(false)}>
+        <a href="#contact" className="text-[32px] font-medium text-white underline underline-offset-2" onClick={() => setMenuOpen(false)}>
           Get in touch
         </a>
       </div>
@@ -259,7 +260,7 @@ function Navbar() {
 
 function Hero() {
   const { displayed, done } = useTypewriter(
-    'Final-year CS student building AI systems, full-stack apps, and the occasional horror game.',
+    'CS grad building AI systems, full-stack apps, and the occasional horror game.',
   )
   const [pillsVisible, setPillsVisible] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -277,10 +278,10 @@ function Hero() {
 
   return (
     <section className="relative z-[1] flex h-screen flex-col justify-end overflow-hidden px-5 pb-12 sm:px-8 md:justify-center md:px-10 md:pb-0">
-      <div className="relative z-10 max-w-xl">
+      <div className="relative z-10 max-w-sm sm:max-w-md">
         <p
           className="mb-5 text-white sm:mb-6"
-          style={{ fontSize: 'clamp(18px, 4vw, 26px)', lineHeight: 1.35, fontWeight: 400, minHeight: 54 }}
+          style={{ fontSize: 'clamp(18px, 3.6vw, 25px)', lineHeight: 1.35, fontWeight: 400, minHeight: 54 }}
         >
           {displayed}
           {!done && <span className="blink-cursor ml-[2px] inline-block h-[1.1em] w-[2px] align-middle bg-white" />}
@@ -300,7 +301,7 @@ function Hero() {
             <a
               key={pill.label}
               href={pill.href}
-              className="mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/10 bg-white px-4 py-[0.3em] text-[13px] text-black transition-colors duration-200 hover:bg-black hover:text-white sm:px-5 sm:text-[15px]"
+              className="mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center whitespace-nowrap rounded-full border border-white/15 bg-white px-4 py-[0.3em] text-[13px] text-black transition-colors duration-200 hover:bg-white/80 sm:px-5 sm:text-[14px]"
             >
               {pill.label}
             </a>
@@ -308,13 +309,35 @@ function Hero() {
 
           <button
             onClick={handleCopy}
-            className="mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white bg-transparent px-4 py-[0.3em] text-[13px] text-white transition-colors duration-200 hover:bg-white hover:text-black sm:gap-3 sm:px-5 sm:text-[15px]"
+            className="mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white bg-transparent px-4 py-[0.3em] text-[13px] text-white transition-colors duration-200 hover:bg-white hover:text-black sm:gap-3 sm:px-5 sm:text-[14px]"
           >
             <span>
-              Reach us: <span className="underline underline-offset-1">{copied ? 'Copied!' : EMAIL}</span>
+              Reach me: <span className="underline underline-offset-1">{copied ? 'Copied!' : EMAIL}</span>
             </span>
             <CopyIcon />
           </button>
+        </div>
+
+        <div
+          className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-white/55 transition-all"
+          style={{
+            opacity: pillsVisible ? 1 : 0,
+            transitionProperty: 'opacity',
+            transitionDuration: '0.5s',
+            transitionDelay: '0.1s',
+          }}
+        >
+          <a href="/resume.pdf" download="Hasnain_Shaukat_Resume.pdf" className="underline underline-offset-2 transition-colors hover:text-white">
+            Download Resume ↓
+          </a>
+          <span className="text-white/25">·</span>
+          <a href={GITHUB_URL} target="_blank" rel="noopener" className="underline underline-offset-2 transition-colors hover:text-white">
+            GitHub
+          </a>
+          <span className="text-white/25">·</span>
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener" className="underline underline-offset-2 transition-colors hover:text-white">
+            LinkedIn
+          </a>
         </div>
       </div>
     </section>
@@ -324,37 +347,37 @@ function Hero() {
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
     <div className="mb-14 max-w-2xl sm:mb-16">
-      <p className="mb-3 text-[13px] uppercase tracking-[0.14em] text-black/40">{eyebrow}</p>
-      <h2 className="text-[32px] leading-[1.1] tracking-tight text-black sm:text-[44px]" style={{ fontFamily: 'var(--font-heading)' }}>
+      <p className="mb-3 text-[13px] uppercase tracking-[0.14em] text-white/40">{eyebrow}</p>
+      <h2 className="text-[32px] leading-[1.1] tracking-tight text-white sm:text-[44px]" style={{ fontFamily: 'var(--font-heading)' }}>
         {title}
       </h2>
-      {sub && <p className="mt-4 text-[16px] leading-relaxed text-black/60">{sub}</p>}
+      {sub && <p className="mt-4 text-[16px] leading-relaxed text-white/60">{sub}</p>}
     </div>
   )
 }
 
 function About() {
   return (
-    <section id="about" className="scroll-mt-20 bg-white px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+    <section id="about" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
       <div className="mx-auto max-w-6xl">
         <SectionHead eyebrow="About" title="A generalist by training, a builder by habit." />
         <div className="grid gap-12 md:grid-cols-[1.3fr_1fr]">
-          <div className="space-y-5 text-[16px] leading-relaxed text-black/70">
+          <div className="space-y-5 text-[16px] leading-relaxed text-white/65">
             <p>
-              I'm currently finishing a <strong className="text-black">BS in Computer Science at the University of
+              I recently completed a <strong className="text-white">BS in Computer Science at the University of
               Management &amp; Technology</strong>, Lahore, with a focus that keeps drifting between AI/ML, full-stack
               development, mobile apps, and game development — mostly because I like finishing things I start, in
               whichever stack the idea needs.
             </p>
             <p>
-              My final year project, <strong className="text-black">EmotionNet</strong>, is a facial emotion
+              My final year project, <strong className="text-white">EmotionNet</strong>, is a facial emotion
               recognition system built on EfficientNet-B2 with CBAM attention, deployed via FastAPI. Outside of
               coursework I've shipped a full MERN e-commerce platform, an Android shopping app, a classical + deep
               learning vehicle detection pipeline, and a Unity survival-horror game — because sometimes the best way
               to learn a system is to make it scary.
             </p>
           </div>
-          <div className="divide-y divide-black/10 rounded-2xl border border-black/10 bg-[#fafafa] px-6">
+          <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-white/[0.04] px-6">
             {[
               ['Location', 'Johar Town, Lahore, PK'],
               ['Education', 'BS CS — UMT, 2022–2026'],
@@ -363,8 +386,8 @@ function About() {
               ['Also builds', 'Games (Unity / C#)'],
             ].map(([k, v]) => (
               <div key={k} className="flex items-center justify-between gap-4 py-4 text-[14px]">
-                <span className="text-black/40">{k}</span>
-                <span className="text-right font-medium text-black">{v}</span>
+                <span className="text-white/40">{k}</span>
+                <span className="text-right font-medium text-white">{v}</span>
               </div>
             ))}
           </div>
@@ -376,7 +399,7 @@ function About() {
 
 function Skills() {
   return (
-    <section id="skills" className="scroll-mt-20 bg-[#f4f4f4] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+    <section id="skills" className="relative z-[2] scroll-mt-20 bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
       <div className="mx-auto max-w-6xl">
         <SectionHead
           eyebrow="Skills"
@@ -385,11 +408,11 @@ function Skills() {
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SKILL_GROUPS.map((group) => (
-            <div key={group.title} className="rounded-2xl border border-black/10 bg-white p-6">
-              <h3 className="mb-4 text-[15px] font-medium text-black">{group.title}</h3>
+            <div key={group.title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+              <h3 className="mb-4 text-[15px] font-medium text-white">{group.title}</h3>
               <div className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <span key={item} className="rounded-full border border-black/10 bg-[#fafafa] px-3 py-1 text-[12.5px] text-black/60">
+                  <span key={item} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[12.5px] text-white/60">
                     {item}
                   </span>
                 ))}
@@ -404,25 +427,25 @@ function Skills() {
 
 function Projects() {
   return (
-    <section id="projects" className="scroll-mt-20 bg-white px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+    <section id="projects" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
       <div className="mx-auto max-w-6xl">
         <SectionHead eyebrow="Selected Work" title="Five projects, five very different problems." />
         <div className="grid gap-5 sm:grid-cols-2">
           {PROJECTS.map((p) => (
             <div
               key={p.title}
-              className={`group rounded-2xl border border-black/10 p-7 transition-all duration-200 hover:-translate-y-1 hover:border-black/25 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] ${p.featured ? 'sm:col-span-2' : ''}`}
+              className={`group rounded-2xl border border-white/10 bg-white/[0.02] p-7 transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.05] ${p.featured ? 'sm:col-span-2' : ''}`}
             >
               <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
-                <h3 className="text-[19px] font-medium text-black" style={{ fontFamily: 'var(--font-heading)' }}>
+                <h3 className="text-[19px] font-medium text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                   {p.title}
                 </h3>
-                <span className="whitespace-nowrap text-[11px] uppercase tracking-wide text-black/40">{p.tech}</span>
+                <span className="whitespace-nowrap text-[11px] uppercase tracking-wide text-white/40">{p.tech}</span>
               </div>
-              <p className="mb-5 text-[14.5px] leading-relaxed text-black/60">{p.desc}</p>
+              <p className="mb-5 text-[14.5px] leading-relaxed text-white/60">{p.desc}</p>
               <div className="flex flex-wrap gap-2">
                 {p.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-black/10 px-3 py-1 text-[11.5px] text-black/50">
+                  <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-[11.5px] text-white/50">
                     {tag}
                   </span>
                 ))}
@@ -437,24 +460,24 @@ function Projects() {
 
 function Education() {
   return (
-    <section id="education" className="scroll-mt-20 bg-[#f4f4f4] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+    <section id="education" className="relative z-[2] scroll-mt-20 bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
       <div className="mx-auto max-w-6xl">
         <SectionHead eyebrow="Education" title="The academic path so far." />
-        <div className="ml-1 border-l border-black/15 pl-8">
+        <div className="ml-1 border-l border-white/15 pl-8">
           {EDUCATION.map((e) => (
             <div key={e.title} className="relative pb-12 last:pb-0">
-              <span className="absolute -left-[38px] top-1 h-2.5 w-2.5 rounded-full border-2 border-black bg-[#f4f4f4]" />
-              <p className="mb-2 text-[12.5px] uppercase tracking-wide text-black/40">{e.year}</p>
-              <h3 className="text-[19px] font-medium text-black" style={{ fontFamily: 'var(--font-heading)' }}>
+              <span className="absolute -left-[38px] top-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#1a1a1a]" />
+              <p className="mb-2 text-[12.5px] uppercase tracking-wide text-white/40">{e.year}</p>
+              <h3 className="text-[19px] font-medium text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                 {e.title}
               </h3>
-              <p className="mt-1 text-[13.5px] text-black/50">{e.sub}</p>
-              {e.desc && <p className="mt-3 max-w-xl text-[14.5px] leading-relaxed text-black/60">{e.desc}</p>}
+              <p className="mt-1 text-[13.5px] text-white/50">{e.sub}</p>
+              {e.desc && <p className="mt-3 max-w-xl text-[14.5px] leading-relaxed text-white/60">{e.desc}</p>}
             </div>
           ))}
         </div>
-        <div className="mt-6 inline-flex items-center gap-3 rounded-xl border border-black/10 bg-white px-5 py-4 text-[13.5px] text-black/60">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-black/70" />
+        <div className="mt-6 inline-flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-4 text-[13.5px] text-white/60">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-white/70" />
           Dean's Merit Award ×2 — UMT, for academic excellence at 3.73 CGPA
         </div>
       </div>
@@ -464,13 +487,13 @@ function Education() {
 
 function Certifications() {
   return (
-    <section id="certifications" className="scroll-mt-20 bg-white px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+    <section id="certifications" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
       <div className="mx-auto max-w-6xl">
         <SectionHead eyebrow="Certifications" title="Keeping current with the field." />
         <div className="flex flex-wrap gap-3">
           {CERTIFICATIONS.map((c) => (
-            <div key={c.name} className="rounded-full border border-black/10 bg-[#fafafa] px-5 py-3 text-[13.5px] text-black/70">
-              <span className="font-medium text-black">{c.org}</span> — {c.name}
+            <div key={c.name} className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-[13.5px] text-white/70">
+              <span className="font-medium text-white">{c.org}</span> — {c.name}
             </div>
           ))}
         </div>
@@ -481,7 +504,7 @@ function Certifications() {
 
 function Contact() {
   return (
-    <section id="contact" className="scroll-mt-20 bg-black px-5 py-24 text-white sm:px-8 sm:py-32 md:px-10">
+    <section id="contact" className="relative z-[2] scroll-mt-20 bg-black px-5 py-24 text-white sm:px-8 sm:py-32 md:px-10">
       <div className="mx-auto max-w-6xl text-center">
         <p className="mb-3 text-[13px] uppercase tracking-[0.14em] text-white/40">Get In Touch</p>
         <h2 className="mx-auto max-w-2xl text-[36px] leading-[1.1] tracking-tight sm:text-[52px]" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -522,8 +545,8 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t border-black/10 bg-white px-5 py-8 text-center sm:px-8">
-      <p className="text-[12.5px] text-black/40">M. Hasnain Shaukat · Lahore, Pakistan</p>
+    <footer className="relative z-[2] border-t border-white/10 bg-[#141414] px-5 py-8 text-center sm:px-8">
+      <p className="text-[12.5px] text-white/40">M. Hasnain Shaukat · Lahore, Pakistan</p>
     </footer>
   )
 }
