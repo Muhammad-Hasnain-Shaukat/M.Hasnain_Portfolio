@@ -292,21 +292,43 @@ function Hero() {
 }
 
 function SectionBackground({ src, label }: { src: string; label: string }) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [shouldRender, setShouldRender] = useState(false)
+
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+
+    // Only mount the WebGL iframe once the section is near the viewport,
+    // and unmount it again once it's well out of view — keeps at most
+    // one or two scenes running at a time instead of all five.
+    const observer = new IntersectionObserver(
+      ([entry]) => setShouldRender(entry.isIntersecting),
+      { rootMargin: '50% 0px 50% 0px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <iframe
-        src={src}
-        title={label}
-        loading="lazy"
-        className="h-full w-full border-0"
-        style={{ opacity: 0.55 }}
-      />
-      {/* scrim so section copy stays readable over the animation */}
+    <div ref={wrapperRef} className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      {shouldRender && (
+        <iframe
+          src={src}
+          title={label}
+          loading="lazy"
+          className="h-full w-full border-0"
+          style={{ opacity: 0.55 }}
+        />
+      )}
+      {/* scrim: darkens the middle for text readability, and fades hard
+          to solid black at the top/bottom edges so adjacent sections'
+          animations don't visually bleed into one another */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.9) 100%)',
+            'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 12%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.55) 88%, rgba(0,0,0,1) 100%)',
         }}
       />
     </div>
