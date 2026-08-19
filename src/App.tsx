@@ -1,14 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTypewriter } from './useTypewriter'
 
-const NAV_LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Education', href: '#education' },
-  { label: 'Certifications', href: '#certifications' },
-]
-
 const PILLS = [
   { label: 'View Projects', href: '#projects' },
   { label: 'See Skills', href: '#skills' },
@@ -114,27 +106,13 @@ function ScrubVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const prevXRef = useRef<number | null>(null)
   const targetTimeRef = useRef(0)
-  const seekingRef = useRef(false)
-  const SENSITIVITY = 0.8
+  const lastAppliedRef = useRef(-1)
+  const rafRef = useRef<number>(0)
+  const SENSITIVITY = 1.1
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
-
-    const requestSeek = () => {
-      if (seekingRef.current) return
-      const duration = video.duration
-      if (!duration || Number.isNaN(duration)) return
-      seekingRef.current = true
-      video.currentTime = targetTimeRef.current
-    }
-
-    const handleSeeked = () => {
-      seekingRef.current = false
-      if (Math.abs(video.currentTime - targetTimeRef.current) > 0.02) {
-        requestSeek()
-      }
-    }
 
     const handleMouseMove = (e: MouseEvent) => {
       const duration = video.duration
@@ -152,16 +130,26 @@ function ScrubVideo() {
       let target = targetTimeRef.current + timeDelta
       target = Math.max(0, Math.min(duration, target))
       targetTimeRef.current = target
-
-      requestSeek()
     }
 
-    video.addEventListener('seeked', handleSeeked)
-    window.addEventListener('mousemove', handleMouseMove)
+    // Continuous rAF loop: with every frame being a keyframe, seeks are
+    // near-instant, so we can just push the target time every frame instead
+    // of waiting on the 'seeked' event between moves — much snappier.
+    const tick = () => {
+      const target = targetTimeRef.current
+      if (Math.abs(target - lastAppliedRef.current) > 0.008) {
+        video.currentTime = target
+        lastAppliedRef.current = target
+      }
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    rafRef.current = requestAnimationFrame(tick)
 
     return () => {
-      video.removeEventListener('seeked', handleSeeked)
       window.removeEventListener('mousemove', handleMouseMove)
+      cancelAnimationFrame(rafRef.current)
     }
   }, [])
 
@@ -189,8 +177,6 @@ function ScrubVideo() {
 }
 
 function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
-
   return (
     <>
       <nav className="fixed top-0 z-10 flex w-full items-start justify-between px-5 py-4 sm:px-8 sm:py-5">
@@ -206,54 +192,13 @@ function Navbar() {
           </span>
         </div>
 
-        <div className="hidden flex-row text-[19px] text-white lg:flex">
-          {NAV_LINKS.map((link, i) => (
-            <span key={link.label}>
-              <a href={link.href} className="transition-opacity hover:opacity-60">
-                {link.label}
-              </a>
-              {i < NAV_LINKS.length - 1 && <span>, </span>}
-            </span>
-          ))}
-        </div>
-
         <a
           href="#contact"
-          className="hidden text-[19px] text-white underline underline-offset-2 transition-opacity hover:opacity-60 lg:block"
+          className="text-[15px] text-white underline underline-offset-2 transition-opacity hover:opacity-60 sm:text-[17px]"
         >
           Get in touch
         </a>
-
-        <button
-          className="flex flex-col items-end gap-[5px] lg:hidden"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          <span
-            className="h-[2px] w-6 bg-white transition-all duration-300"
-            style={menuOpen ? { transform: 'rotate(45deg) translateY(7px)' } : undefined}
-          />
-          <span className="h-[2px] w-6 bg-white transition-all duration-300" style={menuOpen ? { opacity: 0 } : undefined} />
-          <span
-            className="h-[2px] w-6 bg-white transition-all duration-300"
-            style={menuOpen ? { transform: 'rotate(-45deg) translateY(-7px)' } : undefined}
-          />
-        </button>
       </nav>
-
-      <div
-        className="fixed inset-0 z-[9] flex flex-col justify-center gap-8 bg-black/95 px-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
-        style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'auto' : 'none' }}
-      >
-        {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href} className="text-[32px] font-medium text-white" onClick={() => setMenuOpen(false)}>
-            {link.label}
-          </a>
-        ))}
-        <a href="#contact" className="text-[32px] font-medium text-white underline underline-offset-2" onClick={() => setMenuOpen(false)}>
-          Get in touch
-        </a>
-      </div>
     </>
   )
 }
