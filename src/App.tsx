@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useTypewriter } from './useTypewriter'
 
 const PILLS = [
+  { label: 'About Me', href: '#about' },
   { label: 'View Projects', href: '#projects' },
   { label: 'See Skills', href: '#skills' },
   { label: 'My Education', href: '#education' },
+  { label: 'Certificates', href: '#certifications' },
   { label: 'Get In Touch', href: '#contact' },
 ]
 
@@ -289,6 +291,28 @@ function Hero() {
   )
 }
 
+function SectionBackground({ src, label }: { src: string; label: string }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <iframe
+        src={src}
+        title={label}
+        loading="lazy"
+        className="h-full w-full border-0"
+        style={{ opacity: 0.55 }}
+      />
+      {/* scrim so section copy stays readable over the animation */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.9) 100%)',
+        }}
+      />
+    </div>
+  )
+}
+
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
     <div className="mb-14 max-w-2xl sm:mb-16">
@@ -303,8 +327,9 @@ function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; 
 
 function About() {
   return (
-    <section id="about" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="about" className="relative z-[2] scroll-mt-20 overflow-hidden bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+      <SectionBackground src="/bg/sphere.html" label="Particle sphere animation" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHead eyebrow="About" title="A generalist by training, a builder by habit." />
         <div className="grid gap-12 md:grid-cols-[1.3fr_1fr]">
           <div className="space-y-5 text-[16px] leading-relaxed text-white/65">
@@ -344,8 +369,9 @@ function About() {
 
 function Skills() {
   return (
-    <section id="skills" className="relative z-[2] scroll-mt-20 bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="skills" className="relative z-[2] scroll-mt-20 overflow-hidden bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+      <SectionBackground src="/bg/cube.html" label="Particle cube grid animation" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHead
           eyebrow="Skills"
           title="A toolkit that spans the stack."
@@ -372,8 +398,9 @@ function Skills() {
 
 function Projects() {
   return (
-    <section id="projects" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="relative z-[2] scroll-mt-20 overflow-hidden bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+      <SectionBackground src="/bg/torus.html" label="Particle torus animation" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHead eyebrow="Selected Work" title="Five projects, five very different problems." />
         <div className="grid gap-5 sm:grid-cols-2">
           {PROJECTS.map((p) => (
@@ -405,8 +432,9 @@ function Projects() {
 
 function Education() {
   return (
-    <section id="education" className="relative z-[2] scroll-mt-20 bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="education" className="relative z-[2] scroll-mt-20 overflow-hidden bg-[#1a1a1a] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+      <SectionBackground src="/bg/arc_reactor.html" label="Particle arc reactor animation" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHead eyebrow="Education" title="The academic path so far." />
         <div className="ml-1 border-l border-white/15 pl-8">
           {EDUCATION.map((e) => (
@@ -432,8 +460,9 @@ function Education() {
 
 function Certifications() {
   return (
-    <section id="certifications" className="relative z-[2] scroll-mt-20 bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="certifications" className="relative z-[2] scroll-mt-20 overflow-hidden bg-[#141414] px-5 py-24 sm:px-8 sm:py-28 md:px-10">
+      <SectionBackground src="/bg/taza.html" label="Particle cup animation" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <SectionHead eyebrow="Certifications" title="Keeping current with the field." />
         <div className="flex flex-wrap gap-3">
           {CERTIFICATIONS.map((c) => (
